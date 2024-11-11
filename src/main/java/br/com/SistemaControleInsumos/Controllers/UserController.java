@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -28,5 +30,11 @@ public class UserController {
                 user.getAge()
         );
         return ResponseEntity.status(HttpStatus.CREATED).body(responseUserDto);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ResponseUserDto>> findAllUsers() {
+        List<ResponseUserDto> users = this.userService.findAllUsers();
+        return ResponseEntity.status(HttpStatus.OK).body(users);
     }
 }
