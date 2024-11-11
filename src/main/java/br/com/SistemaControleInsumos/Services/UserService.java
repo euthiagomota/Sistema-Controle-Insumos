@@ -2,7 +2,7 @@ package br.com.SistemaControleInsumos.Services;
 
 import br.com.SistemaControleInsumos.Entities.User;
 import br.com.SistemaControleInsumos.Repositories.UserRepository;
-import br.com.SistemaControleInsumos.UserDTOs.RequestUserDto;
+import br.com.SistemaControleInsumos.Dtos.User.RequestUserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
