@@ -31,7 +31,8 @@ public class UserController {
                 user.getName(),
                 user.getEmail(),
                 user.getPassword(),
-                user.getAge()
+                user.getAge(),
+                user.getRole()
         );
         return ResponseEntity.status(HttpStatus.CREATED).body(responseUserDto);
     }

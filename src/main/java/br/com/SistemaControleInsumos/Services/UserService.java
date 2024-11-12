@@ -3,6 +3,7 @@ package br.com.SistemaControleInsumos.Services;
 import br.com.SistemaControleInsumos.Dtos.User.ResponseUserDto;
 import br.com.SistemaControleInsumos.Dtos.User.UpdateUserDto;
 import br.com.SistemaControleInsumos.Entities.User;
+import br.com.SistemaControleInsumos.Enuns.UserRole;
 import br.com.SistemaControleInsumos.Repositories.UserRepository;
 import br.com.SistemaControleInsumos.Dtos.User.RequestUserDto;
 import org.springframework.beans.BeanUtils;
@@ -36,7 +37,9 @@ public class UserService {
             user.setAge(userDto.age());
             user.setEmail(userDto.email());
             user.setPassword(userDto.password());
+            user.setRole(userDto.role() != null ? userDto.role() : UserRole.USER);
             System.out.println(user);
+
             this.userRepository.save(user);
             return user;
         }
@@ -59,7 +62,8 @@ public class UserService {
                         user.getName(),
                         user.getEmail(),
                         user.getPassword(),
-                        user.getAge()
+                        user.getAge(),
+                        user.getRole()
                 );
                 responseDtos.add(responseUserDto);
             }

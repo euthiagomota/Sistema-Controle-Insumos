@@ -14,4 +14,5 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     Optional<User> findByEmail(String email);
     List<User> findByCreateAtBetween(Timestamp initialDate, Timestamp finishDate);
+
 }
