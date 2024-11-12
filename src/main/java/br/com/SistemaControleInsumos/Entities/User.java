@@ -2,7 +2,6 @@ package br.com.SistemaControleInsumos.Entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
-
 import java.util.Date;
 import java.util.UUID;
 
@@ -16,7 +15,6 @@ public class User {
 
     @Column(nullable = false)
     String name;
-
 
     @Column(nullable = false, unique = true)
     String email;
