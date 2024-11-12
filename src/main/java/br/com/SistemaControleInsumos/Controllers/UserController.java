@@ -5,11 +5,14 @@ import br.com.SistemaControleInsumos.Entities.User;
 import br.com.SistemaControleInsumos.Services.UserService;
 import br.com.SistemaControleInsumos.Dtos.User.RequestUserDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/users")
@@ -34,7 +37,13 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<ResponseUserDto>> findAllUsers() {
-        List<ResponseUserDto> users = this.userService.findAllUsers();
+        List<ResponseUserDto> users = this.userService.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(users);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<User>> findUserById(@PathVariable UUID id) {
+    Optional<User> user = this.userService.findById(id);
+    return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 }

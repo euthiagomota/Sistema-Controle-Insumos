@@ -12,6 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -42,7 +43,7 @@ public class UserService {
         return user;
     }
 
-    public List<ResponseUserDto> findAllUsers() {
+    public List<ResponseUserDto> findAll() {
        List<User> users = this.userRepository.findAll();
 
         List<ResponseUserDto> responseDtos = new ArrayList<>();
@@ -58,5 +59,13 @@ public class UserService {
             responseDtos.add(responseUserDto);
         }
        return responseDtos;
+    }
+
+    public Optional<User> findById(UUID id) {
+       Optional<User> user = this.userRepository.findById(id);
+       if (user.isEmpty()) {
+           throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found!");
+       }
+       return user;
     }
 }
