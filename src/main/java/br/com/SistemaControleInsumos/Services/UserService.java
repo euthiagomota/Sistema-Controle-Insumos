@@ -10,10 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+
+import java.sql.Timestamp;
+import java.util.*;
 
 @Service
 public class UserService {
@@ -122,7 +121,19 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                     "An error occurred while deleting the user", e);
         }
-
     }
+
+    public List<User> dateFilter(Timestamp initialDate, Timestamp finishDate) {
+        try {
+            List<User> users = this.userRepository.findByCreateAtBetween(
+                    initialDate,
+                    finishDate
+            );
+            return users;
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "An error occurred while finding the user by date", e);
+            }
+        }
 
 }

@@ -2,7 +2,8 @@ package br.com.SistemaControleInsumos.Entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import java.util.Date;
+
+import java.sql.Timestamp;
 import java.util.UUID;
 
 @Data
@@ -25,13 +26,12 @@ public class User {
     @Column(nullable = false)
     Integer age;
 
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
-    Date createAt;
+    Timestamp createAt;
 
     @PrePersist
     protected void onCreate() {
-        this.createAt = new Date();
+        this.createAt = new Timestamp(System.currentTimeMillis());
     }
 
 }
