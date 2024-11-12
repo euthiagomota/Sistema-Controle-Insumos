@@ -1,11 +1,11 @@
 package br.com.SistemaControleInsumos.Controllers;
 
 import br.com.SistemaControleInsumos.Dtos.User.ResponseUserDto;
+import br.com.SistemaControleInsumos.Dtos.User.UpdateUserDto;
 import br.com.SistemaControleInsumos.Entities.User;
 import br.com.SistemaControleInsumos.Services.UserService;
 import br.com.SistemaControleInsumos.Dtos.User.RequestUserDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -46,4 +46,12 @@ public class UserController {
     Optional<User> user = this.userService.findById(id);
     return ResponseEntity.status(HttpStatus.OK).body(user);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable UUID id, UpdateUserDto updateUserDto) {
+        User user = this.userService.update(id, updateUserDto);
+        return ResponseEntity.status(HttpStatus.OK).body(user);
+    }
+
+
 }
