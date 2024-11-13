@@ -9,6 +9,7 @@ import br.com.SistemaControleInsumos.Dtos.User.RequestUserDto;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -32,13 +33,15 @@ public class UserService {
             if (!userDto.password().equals(userDto.confirmPassword())) {
                 throw new IllegalArgumentException("The passwords not is equals.");
             }
+
+            String encryptedPassword = new BCryptPasswordEncoder().encode(userDto.password());
+
             User user = new User();
             user.setName(userDto.name());
             user.setAge(userDto.age());
             user.setEmail(userDto.email());
-            user.setPassword(userDto.password());
+            user.setPassword(encryptedPassword);
             user.setRole(userDto.role() != null ? userDto.role() : UserRole.USER);
-            System.out.println(user);
 
             this.userRepository.save(user);
             return user;
