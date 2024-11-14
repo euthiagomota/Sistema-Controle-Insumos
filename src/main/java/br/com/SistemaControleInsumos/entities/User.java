@@ -1,6 +1,6 @@
-package br.com.SistemaControleInsumos.Entities;
+package br.com.SistemaControleInsumos.entities;
 
-import br.com.SistemaControleInsumos.Enuns.UserRole;
+import br.com.SistemaControleInsumos.enuns.UserRole;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;

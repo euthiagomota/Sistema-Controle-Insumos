@@ -1,6 +1,6 @@
-package br.com.SistemaControleInsumos.Repositories;
+package br.com.SistemaControleInsumos.repositories;
 
-import br.com.SistemaControleInsumos.Entities.User;
+import br.com.SistemaControleInsumos.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,6 @@
-package br.com.SistemaControleInsumos.Dtos.User;
+package br.com.SistemaControleInsumos.dtos.user;
 
-import br.com.SistemaControleInsumos.Enuns.UserRole;
+import br.com.SistemaControleInsumos.enuns.UserRole;
 
 import java.util.Date;
 import java.util.UUID;

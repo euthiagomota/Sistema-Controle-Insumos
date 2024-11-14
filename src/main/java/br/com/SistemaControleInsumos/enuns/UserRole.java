@@ -1,4 +1,4 @@
-package br.com.SistemaControleInsumos.Enuns;
+package br.com.SistemaControleInsumos.enuns;
 
 public enum UserRole {
     ADMIN("Admin"),

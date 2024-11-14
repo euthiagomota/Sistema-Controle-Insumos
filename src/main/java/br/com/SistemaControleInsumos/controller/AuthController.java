@@ -1,7 +1,7 @@
-package br.com.SistemaControleInsumos.Controllers;
+package br.com.SistemaControleInsumos.controller;
 
 
-import br.com.SistemaControleInsumos.Dtos.User.AuthenticationDto;
+import br.com.SistemaControleInsumos.dtos.user.AuthenticationDto;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

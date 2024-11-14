@@ -1,10 +1,10 @@
-package br.com.SistemaControleInsumos.Controllers;
+package br.com.SistemaControleInsumos.controller;
 
-import br.com.SistemaControleInsumos.Dtos.User.ResponseUserDto;
-import br.com.SistemaControleInsumos.Dtos.User.UpdateUserDto;
-import br.com.SistemaControleInsumos.Entities.User;
-import br.com.SistemaControleInsumos.Services.UserService;
-import br.com.SistemaControleInsumos.Dtos.User.RequestUserDto;
+import br.com.SistemaControleInsumos.dtos.user.ResponseUserDto;
+import br.com.SistemaControleInsumos.dtos.user.UpdateUserDto;
+import br.com.SistemaControleInsumos.entities.User;
+import br.com.SistemaControleInsumos.services.UserService;
+import br.com.SistemaControleInsumos.dtos.user.RequestUserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +22,7 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<ResponseUserDto> createUser(@RequestBody RequestUserDto userDto) {
         User user = this.userService.createUser(userDto);
         ResponseUserDto responseUserDto = new ResponseUserDto(

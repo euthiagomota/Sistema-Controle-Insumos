@@ -1,6 +1,6 @@
-package br.com.SistemaControleInsumos.Services;
+package br.com.SistemaControleInsumos.services;
 
-import br.com.SistemaControleInsumos.Repositories.AuthUserRepository;
+import br.com.SistemaControleInsumos.repositories.AuthUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

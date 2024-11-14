@@ -1,11 +1,11 @@
-package br.com.SistemaControleInsumos.Services;
+package br.com.SistemaControleInsumos.services;
 
-import br.com.SistemaControleInsumos.Dtos.User.ResponseUserDto;
-import br.com.SistemaControleInsumos.Dtos.User.UpdateUserDto;
-import br.com.SistemaControleInsumos.Entities.User;
-import br.com.SistemaControleInsumos.Enuns.UserRole;
-import br.com.SistemaControleInsumos.Repositories.UserRepository;
-import br.com.SistemaControleInsumos.Dtos.User.RequestUserDto;
+import br.com.SistemaControleInsumos.dtos.user.ResponseUserDto;
+import br.com.SistemaControleInsumos.dtos.user.UpdateUserDto;
+import br.com.SistemaControleInsumos.entities.User;
+import br.com.SistemaControleInsumos.enuns.UserRole;
+import br.com.SistemaControleInsumos.repositories.UserRepository;
+import br.com.SistemaControleInsumos.dtos.user.RequestUserDto;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,35 +21,29 @@ public class UserService {
 
     @Autowired
     UserRepository userRepository;
-    //@Autowired
-    //private BCryptPasswordEncoder passwordEncoder;
 
     public User createUser(RequestUserDto userDto) {
-        try {
-            Optional<User> existingUser = userRepository.findByEmail(userDto.email());
-            if (existingUser.isPresent()) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User with this email already exists");
-            }
-            if (!userDto.password().equals(userDto.confirmPassword())) {
-                throw new IllegalArgumentException("The passwords not is equals.");
-            }
 
-            String encryptedPassword = new BCryptPasswordEncoder().encode(userDto.password());
-
-            User user = new User();
-            user.setName(userDto.name());
-            user.setAge(userDto.age());
-            user.setEmail(userDto.email());
-            user.setPassword(encryptedPassword);
-            user.setRole(userDto.role() != null ? userDto.role() : UserRole.USER);
-
-            this.userRepository.save(user);
-            return user;
+        Optional<User> existingUser = userRepository.findByEmail(userDto.email());
+        if (existingUser.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User with this email already exists");
         }
-        catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-                    "An error occurred while creating the user", e);
+
+        if (!userDto.password().equals(userDto.confirmPassword())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The passwords is not equals.");
         }
+
+        String encryptedPassword = new BCryptPasswordEncoder().encode(userDto.password());
+
+        User user = new User();
+        user.setName(userDto.name());
+        user.setAge(userDto.age());
+        user.setEmail(userDto.email());
+        user.setPassword(encryptedPassword);
+        user.setRole(userDto.role() != null ? userDto.role() : UserRole.USER);
+
+        this.userRepository.save(user);
+        return user;
 
     }
 
@@ -109,8 +103,7 @@ public class UserService {
             BeanUtils.copyProperties(updateUserDto, userToUpdate, "id", "createdAt");
             User userUpdated = this.userRepository.save(userToUpdate);
             return userUpdated;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                     "An error occurred while updating the user", e);
         }
@@ -140,7 +133,7 @@ public class UserService {
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                     "An error occurred while finding the user by date", e);
-            }
         }
+    }
 
 }

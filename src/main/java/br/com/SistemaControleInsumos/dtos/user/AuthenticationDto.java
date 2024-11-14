@@ -1,4 +1,4 @@
-package br.com.SistemaControleInsumos.Dtos.User;
+package br.com.SistemaControleInsumos.dtos.user;
 
 public record AuthenticationDto(String email, String password) {
 }
