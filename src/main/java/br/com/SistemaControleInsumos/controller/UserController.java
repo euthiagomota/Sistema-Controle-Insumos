@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -45,8 +46,8 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Optional<User>> findUserById(@PathVariable UUID id) {
-    Optional<User> user = this.userService.findById(id);
-    return ResponseEntity.status(HttpStatus.OK).body(user);
+        Optional<User> user = this.userService.findById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 
     @PutMapping("/{id}")
@@ -57,7 +58,7 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> deleteUser(@PathVariable UUID id) {
-       Boolean isDeleted = this.userService.delete(id);
+        Boolean isDeleted = this.userService.delete(id);
         return ResponseEntity.status(HttpStatus.OK).body(isDeleted);
     }
 
@@ -65,15 +66,14 @@ public class UserController {
     public ResponseEntity<List<User>> dateFilter(
             @RequestParam("initialDate") String initialDateStr,
             @RequestParam("finishDate") String finishDateStr) {
-try {
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
-    Timestamp initialDate = new Timestamp(sdf.parse(initialDateStr).getTime());
-    Timestamp finishDate = new Timestamp(sdf.parse(finishDateStr).getTime());
-    List<User> users = this.userService.dateFilter(initialDate, finishDate);
-    return ResponseEntity.status(HttpStatus.OK).body(users);
-    }
-        catch (Exception e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+            Timestamp initialDate = new Timestamp(sdf.parse(initialDateStr).getTime());
+            Timestamp finishDate = new Timestamp(sdf.parse(finishDateStr).getTime());
+            List<User> users = this.userService.dateFilter(initialDate, finishDate);
+            return ResponseEntity.status(HttpStatus.OK).body(users);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
 

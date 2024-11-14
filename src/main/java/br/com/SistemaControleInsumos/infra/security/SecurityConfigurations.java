@@ -22,16 +22,16 @@ public class SecurityConfigurations {
     SecurityFilter securityFilter;
 
     //@Bean
-   // public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        //return httpSecurity
-               // .csrf(csrf -> csrf.disable())
-                //.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                //.authorizeHttpRequests(authorize -> authorize
-                       //.requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                    //    .requestMatchers(HttpMethod.POST, "/users").permitAll()
-               // )
-             //   .build();
-  //  }
+    // public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+    //return httpSecurity
+    // .csrf(csrf -> csrf.disable())
+    //.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+    //.authorizeHttpRequests(authorize -> authorize
+    //.requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+    //    .requestMatchers(HttpMethod.POST, "/users").permitAll()
+    // )
+    //   .build();
+    //  }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -50,9 +50,11 @@ public class SecurityConfigurations {
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-    return authenticationConfiguration.getAuthenticationManager();
+        return authenticationConfiguration.getAuthenticationManager();
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() { return new BCryptPasswordEncoder(); }
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 }
