@@ -21,18 +21,6 @@ public class SecurityConfigurations {
     @Autowired
     SecurityFilter securityFilter;
 
-    //@Bean
-    // public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-    //return httpSecurity
-    // .csrf(csrf -> csrf.disable())
-    //.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-    //.authorizeHttpRequests(authorize -> authorize
-    //.requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-    //    .requestMatchers(HttpMethod.POST, "/users").permitAll()
-    // )
-    //   .build();
-    //  }
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
@@ -40,8 +28,9 @@ public class SecurityConfigurations {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                        //.requestMatchers(HttpMethod.POST, "/users/register").permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/swagger-ui.html/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/users/register").permitAll()
+                        .anyRequest().permitAll()
                 )
                 .addFilterBefore(securityFilter, BasicAuthenticationFilter.class)
                 .build();

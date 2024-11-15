@@ -5,6 +5,9 @@ import br.com.SistemaControleInsumos.dtos.user.UpdateUserDto;
 import br.com.SistemaControleInsumos.entities.User;
 import br.com.SistemaControleInsumos.services.UserService;
 import br.com.SistemaControleInsumos.dtos.user.RequestUserDto;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +21,16 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/users")
+@Tag(name = "users", description = "this route is to do the control of users.")
 public class UserController {
 
     @Autowired
     UserService userService;
 
+    @Operation(summary = "create user", description = "This route is to create users")
+    @ApiResponse(responseCode = "201", description = "Success to create user")
+    @ApiResponse(responseCode = "400", description = "invalid data")
+    @ApiResponse(responseCode = "500", description = "Internal server error")
     @PostMapping("/register")
     public ResponseEntity<ResponseUserDto> createUser(@RequestBody RequestUserDto userDto) {
         User user = this.userService.createUser(userDto);
@@ -31,7 +39,6 @@ public class UserController {
                 user.getCreateAt(),
                 user.getName(),
                 user.getEmail(),
-                user.getPassword(),
                 user.getAge(),
                 user.getRole()
         );
@@ -45,14 +52,14 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<User>> findUserById(@PathVariable UUID id) {
-        Optional<User> user = this.userService.findById(id);
+    public ResponseEntity<ResponseUserDto> findUserById(@PathVariable UUID id) {
+        ResponseUserDto user = this.userService.findById(id);
         return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable UUID id, UpdateUserDto updateUserDto) {
-        User user = this.userService.update(id, updateUserDto);
+    public ResponseEntity<ResponseUserDto> updateUser(@PathVariable UUID id, UpdateUserDto updateUserDto) {
+        ResponseUserDto user = this.userService.update(id, updateUserDto);
         return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 
@@ -63,14 +70,14 @@ public class UserController {
     }
 
     @GetMapping("/date-filter")
-    public ResponseEntity<List<User>> dateFilter(
+    public ResponseEntity<List<ResponseUserDto>> dateFilter(
             @RequestParam("initialDate") String initialDateStr,
             @RequestParam("finishDate") String finishDateStr) {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
             Timestamp initialDate = new Timestamp(sdf.parse(initialDateStr).getTime());
             Timestamp finishDate = new Timestamp(sdf.parse(finishDateStr).getTime());
-            List<User> users = this.userService.dateFilter(initialDate, finishDate);
+            List<ResponseUserDto> users = this.userService.dateFilter(initialDate, finishDate);
             return ResponseEntity.status(HttpStatus.OK).body(users);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);

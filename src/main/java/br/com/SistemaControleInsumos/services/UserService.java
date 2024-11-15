@@ -58,7 +58,6 @@ public class UserService {
                         user.getCreateAt(),
                         user.getName(),
                         user.getEmail(),
-                        user.getPassword(),
                         user.getAge(),
                         user.getRole()
                 );
@@ -72,13 +71,25 @@ public class UserService {
 
     }
 
-    public Optional<User> findById(UUID id) {
+    public ResponseUserDto findById(UUID id) {
         try {
-            Optional<User> user = this.userRepository.findById(id);
-            if (user.isEmpty()) {
+            Optional<User> userOptional = this.userRepository.findById(id);
+            if (userOptional.isEmpty()) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found!");
             }
-            return user;
+           User user = userOptional.get();
+
+            ResponseUserDto response = new ResponseUserDto(
+                    user.getId(),
+                    user.getCreateAt(),
+                    user.getName(),
+                    user.getEmail(),
+                    user.getAge(),
+                    user.getRole()
+            );
+
+
+            return response;
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                     "An error occurred while finding the user", e);
@@ -86,8 +97,8 @@ public class UserService {
 
     }
 
-    public User update(UUID id, UpdateUserDto updateUserDto) {
-        try {
+    public ResponseUserDto update(UUID id, UpdateUserDto updateUserDto) {
+
             Optional<User> optionalUser = this.userRepository.findById(id);
             if (optionalUser.isEmpty()) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found!");
@@ -102,11 +113,17 @@ public class UserService {
             }
             BeanUtils.copyProperties(updateUserDto, userToUpdate, "id", "createdAt");
             User userUpdated = this.userRepository.save(userToUpdate);
-            return userUpdated;
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-                    "An error occurred while updating the user", e);
-        }
+
+            ResponseUserDto response = new ResponseUserDto(
+                    userUpdated.getId(),
+                    userUpdated.getCreateAt(),
+                    userUpdated.getName(),
+                    userUpdated.getEmail(),
+                    userUpdated.getAge(),
+                    userUpdated.getRole()
+            );
+
+            return response;
     }
 
     public Boolean delete(UUID id) {
@@ -123,13 +140,26 @@ public class UserService {
         }
     }
 
-    public List<User> dateFilter(Timestamp initialDate, Timestamp finishDate) {
+    public List<ResponseUserDto> dateFilter(Timestamp initialDate, Timestamp finishDate) {
         try {
             List<User> users = this.userRepository.findByCreateAtBetween(
                     initialDate,
                     finishDate
             );
-            return users;
+            List<ResponseUserDto> responseDtos = new ArrayList<>();
+
+            for (User user : users) {
+                ResponseUserDto responseUserDto = new ResponseUserDto(
+                        user.getId(),
+                        user.getCreateAt(),
+                        user.getName(),
+                        user.getEmail(),
+                        user.getAge(),
+                        user.getRole()
+                );
+                responseDtos.add(responseUserDto);
+            }
+            return responseDtos;
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                     "An error occurred while finding the user by date", e);
