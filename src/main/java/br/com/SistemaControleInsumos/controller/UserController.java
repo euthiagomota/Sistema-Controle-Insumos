@@ -33,16 +33,8 @@ public class UserController {
     @ApiResponse(responseCode = "500", description = "Internal server error")
     @PostMapping("/register")
     public ResponseEntity<ResponseUserDto> createUser(@RequestBody RequestUserDto userDto) {
-        User user = this.userService.createUser(userDto);
-        ResponseUserDto responseUserDto = new ResponseUserDto(
-                user.getId(),
-                user.getCreateAt(),
-                user.getName(),
-                user.getEmail(),
-                user.getAge(),
-                user.getRole()
-        );
-        return ResponseEntity.status(HttpStatus.CREATED).body(responseUserDto);
+        ResponseUserDto user = this.userService.createUser(userDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
     @GetMapping
@@ -57,7 +49,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<ResponseUserDto> updateUser(@PathVariable UUID id, UpdateUserDto updateUserDto) {
         ResponseUserDto user = this.userService.update(id, updateUserDto);
         return ResponseEntity.status(HttpStatus.OK).body(user);

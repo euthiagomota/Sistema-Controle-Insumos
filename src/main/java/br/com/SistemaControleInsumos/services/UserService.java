@@ -22,7 +22,10 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
-    public User createUser(RequestUserDto userDto) {
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
+    public ResponseUserDto createUser(RequestUserDto userDto) {
 
         Optional<User> existingUser = userRepository.findByEmail(userDto.email());
         if (existingUser.isPresent()) {
@@ -42,8 +45,18 @@ public class UserService {
         user.setPassword(encryptedPassword);
         user.setRole(userDto.role() != null ? userDto.role() : UserRole.USER);
 
-        this.userRepository.save(user);
-        return user;
+        User userSaved = this.userRepository.save(user);
+
+        ResponseUserDto response = new ResponseUserDto(
+                userSaved.getId(),
+                userSaved.getCreateAt(),
+                userSaved.getName(),
+                userSaved.getEmail(),
+                userSaved.getAge(),
+                userSaved.getRole()
+        );
+
+        return response;
 
     }
 
@@ -77,7 +90,7 @@ public class UserService {
             if (userOptional.isEmpty()) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found!");
             }
-           User user = userOptional.get();
+            User user = userOptional.get();
 
             ResponseUserDto response = new ResponseUserDto(
                     user.getId(),
@@ -99,31 +112,41 @@ public class UserService {
 
     public ResponseUserDto update(UUID id, UpdateUserDto updateUserDto) {
 
-            Optional<User> optionalUser = this.userRepository.findById(id);
-            if (optionalUser.isEmpty()) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found!");
-            }
-            User userToUpdate = optionalUser.get();
+        Optional<User> optionalUser = this.userRepository.findById(id);
+        if (optionalUser.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found!");
+        }
+        User userToUpdate = optionalUser.get();
 
-            if (!userToUpdate.getPassword().equals(updateUserDto.oldPassword())) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Incorrect old password.");
-            }
-            if (!updateUserDto.password().equals(updateUserDto.confirmPassword())) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The passwords not is equals.");
-            }
-            BeanUtils.copyProperties(updateUserDto, userToUpdate, "id", "createdAt");
-            User userUpdated = this.userRepository.save(userToUpdate);
+        if (!passwordEncoder.matches(updateUserDto.oldPassword(), userToUpdate.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Incorrect old password.");
+        }
+        if (!updateUserDto.password().equals(updateUserDto.confirmPassword())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The passwords not is equals.");
+        }
+        String encryptedPassword = new BCryptPasswordEncoder().encode(updateUserDto.password());
 
-            ResponseUserDto response = new ResponseUserDto(
-                    userUpdated.getId(),
-                    userUpdated.getCreateAt(),
-                    userUpdated.getName(),
-                    userUpdated.getEmail(),
-                    userUpdated.getAge(),
-                    userUpdated.getRole()
-            );
+        User user = new User();
+        user.setAge(updateUserDto.age());
+        user.setName(updateUserDto.name());
+        user.setId(userToUpdate.getId());
+        user.setRole(updateUserDto.role() != null ? updateUserDto.role() : userToUpdate.getRole());
+        user.setEmail(userToUpdate.getEmail());
+        user.setPassword(encryptedPassword);
+        user.setCreateAt(userToUpdate.getCreateAt());
 
-            return response;
+        User userUpdated = this.userRepository.save(user);
+
+        ResponseUserDto response = new ResponseUserDto(
+                userUpdated.getId(),
+                userUpdated.getCreateAt(),
+                userUpdated.getName(),
+                userUpdated.getEmail(),
+                userUpdated.getAge(),
+                userUpdated.getRole()
+        );
+
+        return response;
     }
 
     public Boolean delete(UUID id) {
