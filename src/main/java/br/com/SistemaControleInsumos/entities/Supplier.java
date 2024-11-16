@@ -15,5 +15,5 @@ public class Supplier {
     private String name;
 
     @Column(nullable = false, length = 14)
-    private String cnpj;
+    private String cnpjString;
 }

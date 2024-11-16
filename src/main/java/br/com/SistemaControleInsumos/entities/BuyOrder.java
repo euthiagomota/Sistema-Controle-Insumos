@@ -24,12 +24,12 @@ public class BuyOrder {
             joinColumns = @JoinColumn(name = "buy_order_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id")
     )
-    private List<Products> products;
+    private List<Product> products;
 
     @JoinColumn(name = "created_by", nullable = false)
     private UUID createdBy;
 
-    @JoinColumn(name = "supplier_id", nullable = false)
+    @Column(name = "supplier_id", nullable = false)
     private Long supplierId;
 
     @CreationTimestamp
