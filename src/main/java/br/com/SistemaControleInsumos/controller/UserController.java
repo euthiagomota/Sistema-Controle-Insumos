@@ -1,10 +1,9 @@
 package br.com.SistemaControleInsumos.controller;
 
+import br.com.SistemaControleInsumos.dtos.user.RequestUserDto;
 import br.com.SistemaControleInsumos.dtos.user.ResponseUserDto;
 import br.com.SistemaControleInsumos.dtos.user.UpdateUserDto;
-import br.com.SistemaControleInsumos.entities.User;
 import br.com.SistemaControleInsumos.services.UserService;
-import br.com.SistemaControleInsumos.dtos.user.RequestUserDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController

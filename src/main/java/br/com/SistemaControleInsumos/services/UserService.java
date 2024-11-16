@@ -6,7 +6,6 @@ import br.com.SistemaControleInsumos.entities.User;
 import br.com.SistemaControleInsumos.enuns.UserRole;
 import br.com.SistemaControleInsumos.repositories.UserRepository;
 import br.com.SistemaControleInsumos.dtos.user.RequestUserDto;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
