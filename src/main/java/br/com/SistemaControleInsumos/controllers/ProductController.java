@@ -1,4 +1,4 @@
-package br.com.SistemaControleInsumos.controller;
+package br.com.SistemaControleInsumos.controllers;
 
 import br.com.SistemaControleInsumos.dtos.products.RequestProductDto;
 import br.com.SistemaControleInsumos.dtos.products.ResponseProductDto;

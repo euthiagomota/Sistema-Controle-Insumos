@@ -1,4 +1,4 @@
-package br.com.SistemaControleInsumos.controller;
+package br.com.SistemaControleInsumos.controllers;
 
 
 import br.com.SistemaControleInsumos.dtos.user.AuthenticationDto;

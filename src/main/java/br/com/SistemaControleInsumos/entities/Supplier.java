@@ -15,5 +15,10 @@ public class Supplier {
     private String name;
 
     @Column(nullable = false, length = 14)
-    private String cnpjString;
+    private String cnpj;
+
+    public Supplier(String name, String cnpj) {
+        this.name = name;
+        this.cnpj = cnpj;
+    }
 }
