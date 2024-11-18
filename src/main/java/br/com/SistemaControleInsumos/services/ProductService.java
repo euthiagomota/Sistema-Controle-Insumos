@@ -13,6 +13,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ProductService {
@@ -65,6 +67,47 @@ public class ProductService {
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                     "An error occurred while finding the users", e);
+        }
+
+    }
+    public Boolean delete(long id) {
+        try {
+            Optional<Product> optionalProduct = this.productRepository.findById(id);
+            if (optionalProduct.isEmpty()) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found");
+            }
+            this.productRepository.delete(optionalProduct.get());
+            return true;
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "An error occurred while deleting the user", e);
+        }
+    }
+
+    public ResponseProductDto findById(long id) {
+        try {
+            Optional<Product> productOptional = this.productRepository.findById(id);
+            if (productOptional.isEmpty()) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "product not found!");
+            }
+            Product product = productOptional.get();
+
+            ResponseProductDto response = new ResponseProductDto(
+                    product.getName(),
+                    product.getDescription(),
+                    product.getQuantity(),
+                    product.getSupplierId(),
+                    product.getExpirationDate(),
+                    product.getCreatedAt(),
+                    product.getUpdatedAt(),
+                    product.getActive()
+            );
+
+
+            return response;
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "An error occurred while finding the product", e);
         }
 
     }
