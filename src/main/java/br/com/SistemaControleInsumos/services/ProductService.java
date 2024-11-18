@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -110,5 +111,33 @@ public class ProductService {
                     "An error occurred while finding the product", e);
         }
 
+    }
+
+    public List<ResponseProductDto> dateFilter(Timestamp initialDate, Timestamp finishDate) {
+        try {
+            List<Product> products = this.productRepository.findByCreatedAtBetween(
+                    initialDate,
+                    finishDate
+            );
+            List<ResponseProductDto> responseDtos = new ArrayList<>();
+
+            for (Product product : products) {
+                ResponseProductDto responseProductDto = new ResponseProductDto(
+                        product.getName(),
+                        product.getDescription(),
+                        product.getQuantity(),
+                        product.getSupplierId(),
+                        product.getExpirationDate(),
+                        product.getCreatedAt(),
+                        product.getUpdatedAt(),
+                        product.getActive()
+                );
+                responseDtos.add(responseProductDto);
+            }
+            return responseDtos;
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "An error occurred while finding the user by date", e);
+        }
     }
 }
