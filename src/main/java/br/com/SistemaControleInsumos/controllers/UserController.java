@@ -35,30 +35,49 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
+    @Operation(summary = "find all users", description = "this route is to find all users")
+    @ApiResponse(responseCode = "200", description = "Success to find all users")
+    @ApiResponse(responseCode = "500", description = "Internal server error")
     @GetMapping
     public ResponseEntity<List<ResponseUserDto>> findAllUsers() {
         List<ResponseUserDto> users = this.userService.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(users);
     }
 
+    @Operation(summary = "find user by id", description = "This route is to find user by id")
+    @ApiResponse(responseCode = "200", description = "Success to find user by id")
+    @ApiResponse(responseCode = "400", description = "invalid data")
+    @ApiResponse(responseCode = "500", description = "Internal server error")
     @GetMapping("/{id}")
     public ResponseEntity<ResponseUserDto> findUserById(@PathVariable UUID id) {
         ResponseUserDto user = this.userService.findById(id);
         return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 
+    @Operation(summary = "update user", description = "This route is to update user")
+    @ApiResponse(responseCode = "200", description = "Success to update user")
+    @ApiResponse(responseCode = "400", description = "invalid data")
+    @ApiResponse(responseCode = "500", description = "Internal server error")
     @PatchMapping("/{id}")
     public ResponseEntity<ResponseUserDto> updateUser(@PathVariable UUID id, UpdateUserDto updateUserDto) {
         ResponseUserDto user = this.userService.update(id, updateUserDto);
         return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 
+    @Operation(summary = "delete user", description = "This route is to delete user")
+    @ApiResponse(responseCode = "200", description = "Success to delete user")
+    @ApiResponse(responseCode = "400", description = "invalid data")
+    @ApiResponse(responseCode = "500", description = "Internal server error")
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> deleteUser(@PathVariable UUID id) {
         Boolean isDeleted = this.userService.delete(id);
         return ResponseEntity.status(HttpStatus.OK).body(isDeleted);
     }
 
+    @Operation(summary = "date filter user", description = "This route is to filter user by date")
+    @ApiResponse(responseCode = "200", description = "Success to filter user by date")
+    @ApiResponse(responseCode = "400", description = "invalid data")
+    @ApiResponse(responseCode = "500", description = "Internal server error")
     @GetMapping("/date-filter")
     public ResponseEntity<List<ResponseUserDto>> dateFilter(
             @RequestParam("initialDate") String initialDateStr,
