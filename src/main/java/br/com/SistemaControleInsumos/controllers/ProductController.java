@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -81,5 +82,16 @@ public class ProductController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
+    }
+
+    @Operation(summary = "update product", description = "This route is to update product")
+    @ApiResponse(responseCode = "200", description = "Success to update product")
+    @ApiResponse(responseCode = "400", description = "invalid data")
+    @ApiResponse(responseCode = "500", description = "Internal server error")
+    @PatchMapping("/{id}")
+    public ResponseEntity<ResponseProductDto> updateProduct(
+            @PathVariable Long id, @RequestBody RequestProductDto request) {
+            ResponseProductDto response = this.productService.updateProduct(id, request);
+            return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

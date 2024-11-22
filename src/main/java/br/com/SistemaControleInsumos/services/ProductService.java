@@ -2,9 +2,7 @@ package br.com.SistemaControleInsumos.services;
 
 import br.com.SistemaControleInsumos.dtos.products.RequestProductDto;
 import br.com.SistemaControleInsumos.dtos.products.ResponseProductDto;
-import br.com.SistemaControleInsumos.dtos.user.ResponseUserDto;
 import br.com.SistemaControleInsumos.entities.Product;
-import br.com.SistemaControleInsumos.entities.User;
 import br.com.SistemaControleInsumos.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,10 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class ProductService {
@@ -34,6 +32,7 @@ public class ProductService {
         Product productSaved = this.productRepository.save(product);
 
         ResponseProductDto response = new ResponseProductDto(
+                productSaved.getId(),
                 productSaved.getName(),
                 productSaved.getDescription(),
                 productSaved.getQuantity(),
@@ -53,6 +52,7 @@ public class ProductService {
             List<ResponseProductDto> responseDtos = new ArrayList<>();
             for (Product product : products) {
                 ResponseProductDto responseProductDto = new ResponseProductDto(
+                        product.getId(),
                         product.getName(),
                         product.getDescription(),
                         product.getQuantity(),
@@ -71,6 +71,7 @@ public class ProductService {
         }
 
     }
+
     public Boolean delete(long id) {
         try {
             Optional<Product> optionalProduct = this.productRepository.findById(id);
@@ -94,6 +95,7 @@ public class ProductService {
             Product product = productOptional.get();
 
             ResponseProductDto response = new ResponseProductDto(
+                    product.getId(),
                     product.getName(),
                     product.getDescription(),
                     product.getQuantity(),
@@ -123,6 +125,7 @@ public class ProductService {
 
             for (Product product : products) {
                 ResponseProductDto responseProductDto = new ResponseProductDto(
+                        product.getId(),
                         product.getName(),
                         product.getDescription(),
                         product.getQuantity(),
@@ -140,4 +143,48 @@ public class ProductService {
                     "An error occurred while finding the user by date", e);
         }
     }
+
+    public ResponseProductDto updateProduct(Long id, RequestProductDto request) {
+
+        Optional<Product> optionalProduct = this.productRepository.findById(id);
+
+        if (optionalProduct.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found");
+        }
+
+        Product productToSave = optionalProduct.get();
+
+        if (request.name() != null && !request.name().isBlank()) {
+            productToSave.setName(request.name());
+        }
+        if (request.description() != null && !request.description().isBlank()) {
+            productToSave.setDescription(request.description());
+        }
+        if (request.active() != null) {
+            productToSave.setActive(request.active());
+        }
+        if (request.expirationDate() != null) {
+            productToSave.setExpirationDate(request.expirationDate());
+        }
+        if (request.supplierId() != null) {
+            productToSave.setSupplierId(request.supplierId());
+        }
+
+        productToSave.setUpdatedAt(LocalDate.now());
+
+        Product updatedProduct = this.productRepository.save(productToSave);
+
+        return new ResponseProductDto(
+                updatedProduct.getId(),
+                updatedProduct.getName(),
+                updatedProduct.getDescription(),
+                updatedProduct.getQuantity(),
+                updatedProduct.getSupplierId(),
+                updatedProduct.getExpirationDate(),
+                updatedProduct.getCreatedAt(),
+                updatedProduct.getUpdatedAt(),
+                updatedProduct.getActive()
+        );
+    }
+
 }

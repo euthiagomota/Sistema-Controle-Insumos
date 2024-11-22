@@ -9,6 +9,7 @@ public record RequestProductDto(
         String description,
         Integer quantity,
         Long supplierId,
-        LocalDate expirationDate
+        LocalDate expirationDate,
+        Boolean active
 ) {
 }
