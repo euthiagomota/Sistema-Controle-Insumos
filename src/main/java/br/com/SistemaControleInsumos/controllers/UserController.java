@@ -83,7 +83,7 @@ public class UserController {
             @RequestParam("initialDate") String initialDateStr,
             @RequestParam("finishDate") String finishDateStr) {
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'  HH:mm:ss.SSSXXX");
             Timestamp initialDate = new Timestamp(sdf.parse(initialDateStr).getTime());
             Timestamp finishDate = new Timestamp(sdf.parse(finishDateStr).getTime());
             List<ResponseUserDto> users = this.userService.dateFilter(initialDate, finishDate);
