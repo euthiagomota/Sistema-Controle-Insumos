@@ -39,7 +39,7 @@ public class ProductController {
     @Operation(summary = "find all product", description = "this route is to find all product")
     @ApiResponse(responseCode = "200", description = "Success to find all product")
     @ApiResponse(responseCode = "500", description = "Internal server error")
-    @GetMapping
+    @GetMapping("/stock")
     public ResponseEntity<List<ResponseProductDto>> findAllProducts() {
         List<ResponseProductDto> products = this.productService.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(products);
@@ -88,7 +88,7 @@ public class ProductController {
     @ApiResponse(responseCode = "200", description = "Success to update product")
     @ApiResponse(responseCode = "400", description = "invalid data")
     @ApiResponse(responseCode = "500", description = "Internal server error")
-    @PatchMapping("/{id}")
+    @PatchMapping("/stock/{id}")
     public ResponseEntity<ResponseProductDto> updateProduct(
             @PathVariable Long id, @RequestBody RequestProductDto request) {
             ResponseProductDto response = this.productService.updateProduct(id, request);
