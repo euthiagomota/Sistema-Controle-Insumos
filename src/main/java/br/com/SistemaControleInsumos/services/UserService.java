@@ -117,26 +117,29 @@ public class UserService {
         }
         User userToUpdate = optionalUser.get();
 
-        if (!passwordEncoder.matches(updateUserDto.oldPassword(), userToUpdate.getPassword())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Incorrect old password.");
+        if (updateUserDto.password() != null && updateUserDto.confirmPassword() != null) {
+            if (!passwordEncoder.matches(updateUserDto.oldPassword(), userToUpdate.getPassword())) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Incorrect old password.");
+            }
+            if (!updateUserDto.password().equals(updateUserDto.confirmPassword())) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Passwords do not match.");
+            }
+            userToUpdate.setPassword(passwordEncoder.encode(updateUserDto.password()));
         }
-        if (!updateUserDto.password().equals(updateUserDto.confirmPassword())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The passwords not is equals.");
+
+        if (updateUserDto.name() != null) {
+            userToUpdate.setName(updateUserDto.name());
         }
-        String encryptedPassword = new BCryptPasswordEncoder().encode(updateUserDto.password());
+        if (updateUserDto.age() != null) {
+            userToUpdate.setAge(updateUserDto.age());
+        }
+        if (updateUserDto.role() != null) {
+            userToUpdate.setRole(updateUserDto.role());
+        }
 
-        User user = new User();
-        user.setAge(updateUserDto.age());
-        user.setName(updateUserDto.name());
-        user.setId(userToUpdate.getId());
-        user.setRole(updateUserDto.role() != null ? updateUserDto.role() : userToUpdate.getRole());
-        user.setEmail(userToUpdate.getEmail());
-        user.setPassword(encryptedPassword);
-        user.setCreateAt(userToUpdate.getCreateAt());
+        User userUpdated = this.userRepository.save(userToUpdate);
 
-        User userUpdated = this.userRepository.save(user);
-
-        ResponseUserDto response = new ResponseUserDto(
+        return new ResponseUserDto(
                 userUpdated.getId(),
                 userUpdated.getCreateAt(),
                 userUpdated.getName(),
@@ -144,9 +147,8 @@ public class UserService {
                 userUpdated.getAge(),
                 userUpdated.getRole()
         );
-
-        return response;
     }
+
 
     public Boolean delete(UUID id) {
         try {
