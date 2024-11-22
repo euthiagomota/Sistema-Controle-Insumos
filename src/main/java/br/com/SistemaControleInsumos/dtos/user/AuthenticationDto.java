@@ -1,4 +1,5 @@
 package br.com.SistemaControleInsumos.dtos.user;
 
-public record AuthenticationDto(String email, String password) {
-}
+public record AuthenticationDto(
+        String email,
+        String password) {}

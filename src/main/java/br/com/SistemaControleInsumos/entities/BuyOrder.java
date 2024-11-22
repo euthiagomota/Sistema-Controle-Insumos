@@ -41,4 +41,12 @@ public class BuyOrder {
 
     @Column(nullable = false)
     private LocalDate expectedDeliveryDate;
+
+    public BuyOrder(List<Product> products, UUID createdBy, Long supplierId, String status, LocalDate expectedDeliveryDate) {
+        this.createdBy = createdBy;
+        this.expectedDeliveryDate = expectedDeliveryDate;
+        this.products = products;
+        this.supplierId = supplierId;
+        this.status = status;
+    }
 }

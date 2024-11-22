@@ -45,7 +45,7 @@ public class ProductService {
         );
         return response;
     }
-//teste
+
     public List<ResponseProductDto> findAll() {
         try {
             List<Product> products = this.productRepository.findAll();
