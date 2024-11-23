@@ -61,8 +61,8 @@ public class ProductController {
     @ApiResponse(responseCode = "500", description = "Internal server error")
     @GetMapping("/{id}")
     public ResponseEntity<ResponseProductDto> findProductById(@PathVariable long id) {
-        ResponseProductDto user = this.productService.findById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(user);
+        ResponseProductDto product = this.productService.findById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(product);
     }
 
     @Operation(summary = "date filter product", description = "This route is to filter product by date")
