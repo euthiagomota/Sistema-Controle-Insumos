@@ -1,0 +1,20 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres-controle-insumos
+    build:
+      context: .
+    container_name: postgres-controle-insumos
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: controle_insumos
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
