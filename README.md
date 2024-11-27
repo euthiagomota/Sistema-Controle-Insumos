@@ -1,26 +1,60 @@
-<h1 align="center"> Projeto - Back-end - Sistema de Controle de Insumos </h1>
+<h1 align="center"> Sistema de Gerenciamento de Insumos Hospitalares </h1>
 
 
-# Sobre a aplicação
+# Visão Geral
 
-API para gerenciar o recebimento e controle de insumos em um hospital,
-permitindo o acompanhamento básico de ordens de compra, recebimentos e estoque.
+Este projeto é uma API para gerenciar o recebimento e controle de insumos em um hospital, permitindo o acompanhamento de ordens de compra, recebimentos e estoque.
 
-# Tecnologias Sugeridas:
+# Tecnologias Utilizadas
 
-- Linguagem: Node.js (NestJS) ou Java (Spring Boot).
-- Banco de Dados: PostgreSQL.
-- ORM: TypeORM (Node.js) ou JPA (Spring Boot).
-- Autenticação: JWT.
-- Documentação: Swagger.
+* Java: Linguagem de programação.
+* Spring Boot: Framework para criar aplicações robustas de forma rápida.
+* JPA (Java Persistence API): Mapeamento de dados entre objetos Java e banco de dados relacional.
+* Lombok: Redução de código boilerplate no Java.
+* Spring Security: Framework de autenticação e controle de acesso.
+* Autenticação JWT: Autenticação baseada em tokens JSON Web Tokens.
+* BCrypt: Algoritmo de hashing para proteger senhas.
+* PostgreSQL: Sistema de gerenciamento de banco de dados relacional.
+* Docker: Plataforma de containers para criar, deploy e executar aplicações.
+* Docker Compose: Ferramenta para definir e gerenciar containers, utilizada para rodar a imagem do PostgreSQL.
+* Git: Sistema de controle de versão distribuído.
+* DBeaver: Ferramenta universal de banco de dados.
+* Swagger: Documentação interativa para a API.
+* Fork: (Caso seja uma ferramenta específica ou conceito de bifurcação de código).
+* Insomnia: Cliente de API REST para desenvolvimento e teste.
 
-# Como executar a aplicação
+# Funcionalidades Principais
 
-* Src > Main > br.com.SistemaControleInsumosApplication.java > UserController (Roda a aplicação) 
-* Entra no link do swagger: http://localhost:8080/swagger-ui.html
-* Para fazer qualquer tipo de alteração precisa logar no sistema
-  
-# Equipe
+* CRUD de Insumos: Gerenciamento de criação, leitura, atualização e exclusão de insumos.
+
+* Gerenciamento de Ordens de Compra: Acompanhamento e controle de ordens de compra.
+
+* Controle de Estoque: Monitoramento e controle do estoque de insumos.
+
+* Gerenciamento de Usuários:
+
+  ```Criar um usuário```
+
+  ```Logar um usuário```
+
+  ```Listar usuários```
+
+  ```Atualizar dados de um usuário```
+
+  ```Deletar um usuário```
+
+# Instruções de Instalação
+
+``` 1. Clone o repositório> git clone (https://github.com/euthiagomota/Sistema-Controle-Insumos.git)```
+
+``` 2. Navegue até o diretório do projeto> cd <nome-do-diretorio>```
+
+``` 3. Execute o Docker Compose para iniciar os containers> docker-compose up```
+
+``` 4. Acesse a documentação da API via Swagger em> http://localhost:8080/swagger-ui.html```
+
+# Desenvolvedores
+
 * Thiago
 * Laryssa Rayanne Souza Martins - 01612424
 * Rafael Ferreira dos anjos - 01579531
