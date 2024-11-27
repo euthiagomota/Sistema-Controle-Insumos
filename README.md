@@ -57,6 +57,11 @@ O sistema permite registrar insumos consumidos e criar ordens de compra com base
 - **Criar Fornecedor**: Registra um novo fornecedor no sistema.
 
 
+# Documentação Swagger
+
+<a href=""><img src="https://i.ibb.co/37phJf1/Screenshot-2024-11-27-101534.png" alt="Documentação swagger" width="500" height="500"/></a>
+
+
 # Instruções de Instalação
 
 ``` 1. Clone o repositório> git clone (https://github.com/euthiagomota/Sistema-Controle-Insumos.git)```
