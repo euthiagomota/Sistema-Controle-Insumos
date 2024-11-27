@@ -55,7 +55,7 @@ Este projeto é uma API para gerenciar o recebimento e controle de insumos em um
 
 # Desenvolvedores
 
-* Thiago
+* Thiago Mota - 01587816
 * Laryssa Rayanne Souza Martins - 01612424
 * Rafael Ferreira dos anjos - 01579531
 * Junior
