@@ -1,4 +1,4 @@
-<h1 align="center"> Projeto - Backend - Sistema de Controle de Insumos </h1>
+<h1 align="center"> Projeto - Back-end - Sistema de Controle de Insumos </h1>
 
 
 # Sobre a aplicação
